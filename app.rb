@@ -54,12 +54,12 @@ end
 
 post "/sign-up" do
   @user = User.create(
+    username: params[:username],
+    password: params[:password],
     first_name: params[:first_name],
     last_name: params[:last_name],
-    username: params[:username],
     birthday: params[:birthday],
-    email: params[:email],
-    password: params[:password]
+    email: params[:email]
   )
 
   # this line does the signing in
@@ -82,5 +82,28 @@ get "/sign-out" do
   # lets the user know they have signed out
   flash[:info] = "You have been signed out"
   
-  redirect "/"
+  redirect "/sign-in"
+end
+
+get "/main" do
+  @posts = Post.all.order("created_at DESC")
+  @users = User.all
+  erb :main
+end
+
+get "/post" do
+  @posts = Post.all
+  @user = User.find(session[:user_id])
+
+  erb :post
+end
+
+post "/post" do
+  @post = Post.create(
+    title: params[:title],
+    subject: params[:subject],
+    content: params[:content],
+    user_id: session[:user_id]
+  )
+  redirect "/main"
 end
