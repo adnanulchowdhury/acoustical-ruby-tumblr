@@ -107,3 +107,19 @@ post "/post" do
   )
   redirect "/main"
 end
+
+# get "/users" do
+#   @users = User.all
+#   @post = Post.last
+#   User.all.map { |user| "USERNAME: #{user.username} PASSWORD:#{user.password}" }.join(", ")
+# end
+
+get "/profile" do
+  @user = User.find(session[:user_id])
+  erb :profile
+end
+
+
+get "profile/:id" do
+  @user = user.find(params[:user_id])
+end
