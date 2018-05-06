@@ -3,6 +3,15 @@ require "sinatra/activerecord"
 require "sinatra/flash"
 require "./models"
 
+configure :development do
+  set :database, "sqlite3:main.db"
+  require 'pry'
+end
+
+configure :production do
+  set :database, ENV["DATABASE_URL"]
+end
+
 enable :sessions
 
 set :database, "sqlite3:app.db"
@@ -108,11 +117,11 @@ post "/post" do
   redirect "/main"
 end
 
-# get "/users" do
-#   @users = User.all
-#   @post = Post.last
-#   User.all.map { |user| "USERNAME: #{user.username} PASSWORD:#{user.password}" }.join(", ")
-# end
+get "/users" do
+  @users = User.all
+  @post = Post.last
+  User.all.map { |user| "USERNAME: #{user.username} PASSWORD:#{user.password}" }.join(", ")
+end
 
 get "/profile" do
   @user = User.find(session[:user_id])
@@ -120,6 +129,25 @@ get "/profile" do
 end
 
 
-get "profile/:id" do
-  @user = user.find(params[:user_id])
+get "/profile/:id" do
+  @user = User.find(session[:user_id])
+  @posts = @user.posts
+end
+
+get '/settings' do
+  erb :settings
+end
+
+post '/settings' do
+  title = params[:title]
+  id = session[:user_id]
+  user = User.find(id)
+  if title != user.username
+    redirect '/settings'
+  else
+    user.posts.destroy
+    user.destroy
+    session[:user_id] = nil
+    redirect '/'
+  end
 end

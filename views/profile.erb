@@ -6,7 +6,7 @@
 <br><%= @user.last_name %>
 <br><%= @user.email %>
 <br><%= @user.birthday %>
-<br><a href="/delete">DELETE YOUR ACCOUNT</a>
+<br><a href="/settings">DELETE YOUR ACCOUNT</a>
 <div>
 
 <p>Posts by <%= @user.username %></p>
@@ -14,6 +14,6 @@
     <h2> <%= post.title %> </h2>
     </br> <%="by #{post.user.username}"%>
     <p class="content"> <%= post.content %> </p>
-    <p><img class="imgProf" src="<%= post.image %>" ></p>
+    
     <p> <%= "#{post.created_at.strftime("%b %d, %Y")}" %> </p>
 <% end %>
