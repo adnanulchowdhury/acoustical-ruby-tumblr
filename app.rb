@@ -13,8 +13,6 @@ end
 
 enable :sessions
 
-set :database, "sqlite3:app.db"
-
 get "/" do
   if session[:user_id]
     erb :signed_in_homepage
