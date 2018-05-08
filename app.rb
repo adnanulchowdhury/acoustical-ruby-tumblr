@@ -5,7 +5,6 @@ require "./models"
 
 configure :development do
   set :database, "sqlite3:main.db"
-  require 'pry'
 end
 
 configure :production do
