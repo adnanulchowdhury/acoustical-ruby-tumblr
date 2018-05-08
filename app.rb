@@ -119,7 +119,7 @@ end
 get "/users" do
   @users = User.all
   @post = Post.last
-  User.all.map { |user| "USERNAME: #{user.username} PASSWORD:#{user.password}" }.join(", ")
+  User.all.map { |user| "USERNAME: #{user.username}" }.join(", ")
 end
 
 get "/profile" do
